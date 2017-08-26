@@ -1,21 +1,26 @@
-import Sequelize from 'sequelize';
-import db from '../stores/postgres';
-import Member from './member';
+'use strict';
 
-const Reward = db.define('reward', {
-	type: {
-		type: Sequelize.ENUM('points'),
-		allowNull: false,
+module.exports = (sequelize, DataTypes) => {
+	const Reward = sequelize.define('Reward', {
+		firstName: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		lastName: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 	},
-	amount: {
-		type: Sequelize.INTEGER,
-		defaultValue: 0,
-		allowNull: false,
-	},
-});
+	{
+		freezeTableName: true,
+	});
 
-Reward.belongsToMany(Member, {
-	through: 'UserReward',
-});
+	Reward.associate = (models) => {
+		Reward.belongsToMany(models.Member, {
+			onDelete: 'CASCADE',
+			through: 'MemberReward',
+		});
+	};
 
-export default Reward;
+	return Reward;
+};
