@@ -1,20 +1,17 @@
-import fs from 'fs';
-import path from 'path';
 import Sequelize from 'sequelize';
 import sequelize from '../stores/postgres';
 
-const basename  = path.basename(module.filename);
+//list the paths to the models here
+const models = [
+	'./member',
+	'./reward',
+];
 const db = {};
 
-fs
-	.readdirSync(__dirname)
-	.filter((file) => {
-		return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-	})
-	.forEach((file) => {
-		const model = sequelize['import'](path.join(__dirname, file));
-		db[model.name] = model;
-	});
+models.forEach((model) => {
+	const importedModel = sequelize.import(model);
+	db[importedModel.name] = importedModel;
+});
 
 Object.keys(db).forEach((modelName) => {
 	if (db[modelName].associate) {
@@ -25,4 +22,4 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+export default db;

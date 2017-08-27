@@ -1,13 +1,11 @@
-'use strict';
-
-module.exports = (sequelize, DataTypes) => {
+export default function (sequelize, DataTypes) {
 	const Reward = sequelize.define('Reward', {
-		firstName: {
+		type: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		lastName: {
-			type: DataTypes.STRING,
+		amount: {
+			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
 	},
@@ -23,4 +21,4 @@ module.exports = (sequelize, DataTypes) => {
 	};
 
 	return Reward;
-};
+}

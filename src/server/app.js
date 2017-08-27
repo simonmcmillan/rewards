@@ -1,18 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import models from './models';
+import member from './api/member';
+import reward from './api/reward';
 
 const app = express();
 
-app.get('/user/:id',
-	(req, res) => {
-		models.Member.findById(req.params.id)
-			.then(member => {
-				console.log('MEMBER', member);
-				res.json(member);
-			});
-	}
-);
+app.use(bodyParser.json());
+app.use('/api/', member);
+app.use('/api/', reward);
 
 //Generic error handler
 /*eslint-disable*/
@@ -21,7 +16,7 @@ app.use((err, req, res, next) => {
 		err.status = 500;
 		err.errors = 'Something went wrong!';
 	}
-
+	console.error(err.stack);
 	res.status(err.status).send(err.errors);
 });
 

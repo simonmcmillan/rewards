@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = (sequelize, DataTypes) => {
+export default function (sequelize, DataTypes) {
 	const Member = sequelize.define('Member', {
 		firstName: {
 			type: DataTypes.STRING,
@@ -23,4 +21,4 @@ module.exports = (sequelize, DataTypes) => {
 	};
 
 	return Member;
-};
+}
