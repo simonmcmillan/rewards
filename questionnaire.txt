@@ -1,0 +1,38 @@
+1.
+	a. Api gateway can be a security risk, Instead use Amazon Cognito in front of API gateway.
+
+	b. Redis and Socket service are public. These should be private, there should be authentication on socket service.
+
+	c. The socket service is only connected to API 2 and 3. It should be connected to all servers.
+
+	d. The API servers are Elastic Beanstalk, using EC2 would give more control.
+
+	e. There should be a load balancer between the api gateway and the API servers.
+
+	f. If the API consumers have a known IP range then a firewall could be used to whitelist.
+
+	g. Security groups between services to seure traffic.
+
+	h. Replace the API servers with infinitely scalable Lambda microservices.
+2.
+	a. If traffic is high then migrating to Lambda microservices could reduce cost significantly
+
+	b. Perhaps check the instance sizes of the existing API servers and the databases to make sure they are appropriate,
+	for example it might be cheaper to upgrade 2 servers and kill the other 2.
+
+	c. Use AWS Reserved Instances, if the future traffic can be predicted then pre purchasing is much cheaper then on demand.
+
+3. NB. the following opinions are from my experience. This may not apply to all offshore teams.
+	Software Development:
+	Pros:
+		Price.
+		Good for boilerplate work
+	Cons:
+		Poor communication, hard to get them to do exactly what you want.
+		You cant let them make key architecture decisions.
+		Hard to monitor exactly what they are doing day to day. Easy to lose track.
+		They often need to be flown here for training.
+		They dont ask enough questions, they never disagree and hence build the wrong thing - your mileage may vary.
+
+	Dev Ops:
+	Ive never worked with an offshore dev ops team. If anything i'd keep this onshore, either in house or outsourced locally.
