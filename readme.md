@@ -68,8 +68,8 @@ Endpoints
 	/api/reward/
 	```
 	{
-		"firstName": "test",
-		"lastName": "user"
+		"type": "test",
+		"meta": 1234
 	}
 	```
 
