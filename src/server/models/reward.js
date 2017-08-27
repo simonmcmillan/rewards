@@ -4,7 +4,7 @@ export default function (sequelize, DataTypes) {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		amount: {
+		meta: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
@@ -15,7 +15,6 @@ export default function (sequelize, DataTypes) {
 
 	Reward.associate = (models) => {
 		Reward.belongsToMany(models.Member, {
-			onDelete: 'CASCADE',
 			through: 'MemberReward',
 		});
 	};

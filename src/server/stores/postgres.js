@@ -5,19 +5,20 @@ const {
 	username,
 	host,
 	dialect,
+	logging,
 } = config.get('postgres');
 
 const sequelize = new Sequelize(
-	database, username, null, { host, dialect }
+	database, username, null, { host, dialect, logging }
 );
 
-sequelize
-	.authenticate()
-	.then(() => {
-		console.log('Postgres db connected.');
-	})
-	.catch(err => {
-		console.error('Unable to connect to the database:', err);
-	});
+// sequelize
+// 	.authenticate()
+// 	.then(() => {
+// 		console.log('Postgres db connected.');
+// 	})
+// 	.catch(err => {
+// 		console.error('Unable to connect to the database:', err);
+// 	});
 
 export default sequelize;

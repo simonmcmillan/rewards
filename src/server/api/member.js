@@ -11,11 +11,13 @@ app.put('/member/reward/',
 		if (!req.body.id || !req.body.Rewards.length) {
 			next(error('Member id and Reward id required', 400));
 		}
+		//Fetch the member and rewards
 		const memberPromise = models.Member.findById(req.body.id);
 		const rewardPromises = req.body.Rewards.map((reward) => {
 			if (!reward.id) {
 				next(error('Reward id required', 400));
 			}
+			//Yes this really should be models.reward. Needs to be aliased in the model.
 			return models.Reward.findById(reward.id);
 		});
 
@@ -26,7 +28,8 @@ app.put('/member/reward/',
 			if (!rewards.length) {
 				next(error('Rewards not found', 400));
 			}
-
+			//Loop through the rewards and check that it doesnt exist on the member
+			//Only add the rewards that dont exist
 			const addedRewardsPromises = rewards.map((reward) => {
 				return member.hasReward(reward)
 					.then((result) => {
@@ -42,7 +45,7 @@ app.put('/member/reward/',
 
 			Promise.all(addedRewardsPromises)
 				.then(() => {
-					//For some odd reason addReward returns the join table,
+					//For some odd reason sequelize returns the join table with addX() functions??!,
 					//so we need to refetch the member with the associated rewards
 					return models.Member.findOne({
 						where: { 'id': member.id },
@@ -52,6 +55,21 @@ app.put('/member/reward/',
 					});
 				});
 		});
+	}
+);
+
+app.delete('/member/:id',
+	(req, res, next) => {
+		models.Member.findById(req.params.id)
+			.then(member => {
+				return member.destroy();
+			})
+			.then(() => {
+				res.status(204).send();
+			})
+			.catch((err) => {
+				next(err);
+			});
 	}
 );
 
