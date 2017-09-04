@@ -1,5 +1,5 @@
-Rewards app
-===========
+Express / Sequelize boilerplate
+=====================
 
 To run:
 
